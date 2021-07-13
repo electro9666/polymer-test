@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <script src="https://polygit.org/polymer+^1.9.1/webcomponentsjs+^0.7.0/iron-*+polymerelements+^1.0.0/components/webcomponentsjs/webcomponents-lite.js"></script>
+    <link rel="import" href="https://polygit.org/polymer+^1.9.1/webcomponentsjs+^0.7.0/iron-*+polymerelements+^1.0.0/components/iron-input/iron-input.html">
+  </head>
+<body>
+  <dom-module id="sample-1">
+    <template>
+      <style>
+        div {
+          border: 1px solid red;
+        }
+      </style>
+      <div>
+        name: <input value="[[data.name]]" />
+        <br/>
+        age: <input value="{{data.age}}" />
+      </div>
+    </template>
+    <script>
+       HTMLImports.whenReady(function () {
+        Polymer({
+          is: "sample-1",
+          properties: {
+            data: {
+              type: Object,
+              notify: true,
+              value: function() {
+                return {
+                  name: 'ysh',
+                  job: 'dev',
+                  age: 30
+                }
+              }
+            }
+          },
+          created: function() {
+            window.me = this;
+          },
+        });
+       });
+    </script>
+  </dom-module>
+  <sample-1></sample-1>
+  <script>
+    // console.log(window.me.data);
+    // window.me.set('data.name', 'ysh123');
+    // console.log(window.me.data);
+  </script>
+</body>
+</html>

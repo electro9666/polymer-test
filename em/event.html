@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <script src="https://polygit.org/polymer+^1.9.1/webcomponentsjs+^0.7.0/iron-*+polymerelements+^1.0.0/components/webcomponentsjs/webcomponents-lite.js"></script>
+    <link rel="import" href="https://polygit.org/polymer+^1.9.1/webcomponentsjs+^0.7.0/iron-*+polymerelements+^1.0.0/components/iron-input/iron-input.html">
+  </head>
+  <body>
+    <dom-module id="editable-name-tag">
+      <template>
+        <p>This is <strong>{{owner}}</strong>'s editable-name-tag.</p>
+        <!-- iron-input exposes a two-way bindable input value -->
+        <input is="iron-input" bind-value="{{owner}}" placeholder="Your name here...">
+
+        <div>person.age: {{person.age}}</div>
+        <div id="special">local</div>
+        <button on-tap="buttonTap">버튼1</button>
+      </template>
+      <script>
+         HTMLImports.whenReady(function () {
+          Polymer({
+            is: "editable-name-tag",
+            properties: {
+              owner: {
+                type: String,
+                value: "Daniel",
+              },
+              person: {
+                type: Object,
+                value: function(d) {
+                  console.log('d', d);
+                  return {};
+                }
+              }
+            },
+            created: function() {
+              console.log('created');
+            },
+            ready: function() {
+              console.log('ready');
+              this.$.special.innerHTML = 'fffffffffffffff';
+            },
+            attached: function() {
+              console.log('attached');
+            },
+            listeners: {
+              'tap': 'regularTap',
+              'special.tap': 'specialTap'
+            },
+            regularTap: function(e) {
+              console.log('regularTap', e);
+            },
+            specialTap: function(e) {
+              console.log('specialTap', e);
+            },
+            buttonTap: function(e) {
+              console.log('buttonTap');
+              this.fire('search', {name: 'I'})
+              e.stopPropagation(); // regularTap을 막기 위해
+            }
+          });
+         });
+      </script>
+    </dom-module>
+    <editable-name-tag owner="A" person='{"age": 12}'></editable-name-tag>
+
+
+    <dom-module id="module-name2">
+      <template>
+        <style>
+          div {
+            border: 1px solid red;
+          }
+        </style>
+        <div>
+          <editable-name-tag owner="A" person='{"age": 12}' on-search="onSearch"></editable-name-tag>
+        </div>
+      </template>
+      <script>
+         HTMLImports.whenReady(function () {
+          Polymer({
+            is: "module-name2",
+            onSearch: function(e, data) {
+              console.log('onSearch', e, data);
+            }
+          });
+         });
+      </script>
+    </dom-module>
+    <module-name2></module-name2>
+  </body>
+</html>
